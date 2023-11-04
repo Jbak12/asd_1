@@ -29,23 +29,17 @@ void radix(std::vector<int>& v) {
             }
         }
             std::cout<< "i jeszcze raz ; )"<<std::endl;
-
     }
     delete[] queues;
 }
 
 int main() {
-    std::vector<int> wektorek = {0,4444343,1,24,14,344442,55,10,100,19};
-    radix(wektorek);
-    for (const int& num : wektorek){
+    int x;
+    std::vector<int> v;
+    while(std::cin >> x)
+        v.push_back(x);
+    radix(v);
+    for (const int& num : v){
         std::cout<<num<<std::endl;
     }
-    LinkedQueue<int> queues[10];
-    int x = 13%1;
-    queues[2].push(19);
-    // std::cout<<"element z kolejki nr 3 "<<queues[2].pop()<<std::endl;
-    std::cout<<"maksymalna liczba cyfr w wektorku to "<< countDigits(*std::max_element(wektorek.begin(),wektorek.end()))<<std::endl;
-    std::cout<<"10mod10: "<<x<<std::endl;
-    std::cout<<"czy jest pusta: "<<(queues[2].empty() ? "pusta jest" : "cos tam jest" )<<std::endl;
-
 }
