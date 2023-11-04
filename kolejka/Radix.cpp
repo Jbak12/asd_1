@@ -6,24 +6,22 @@ int countDigits(int number) {
     return (number < 10) ? 1 : 1 + countDigits(number / 10);
 }
 void radix(std::vector<int>& v) {
-    int moduler_divider = 10;
+    int moduler_divider = 1;
     int index_to_push;
     int max_num_of_digits = countDigits(*std::max_element(v.begin(),v.end()));
     LinkedQueue<int>* queues = new LinkedQueue<int>[10];
     for(int i = 0; i < max_num_of_digits; i++) {
         for(const int& number : v){
-            index_to_push = (i == 0)
-                            ? number%moduler_divider 
-                            : (number%(moduler_divider*10)-number%moduler_divider)/moduler_divider;
+            index_to_push = (number%(moduler_divider*10)-number%moduler_divider)/moduler_divider;
             queues[index_to_push].push(number);
         }
         for(int i = 0; i< 10; i++) {
             std::cout<<"kolejka nr "<<i<<": ";
             (queues[i].printAll());
         }
-        if(!(i==0)) {
-            moduler_divider = moduler_divider*10;
-        }
+
+        moduler_divider = moduler_divider*10;
+        
         v = {};
         for(int i = 0; i<10; i++) {
             while(!queues[i].empty()) {
