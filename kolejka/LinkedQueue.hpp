@@ -24,7 +24,7 @@ public:
         T val_to_return = head->value;
         Node* ptr = head;
         head = head->next;
-        delete ptr;
+        ptr = nullptr;
         _size--;
         return val_to_return;
     }
