@@ -24,7 +24,7 @@ public:
         T val_to_return = head->value;
         Node* ptr = head;
         head = head->next;
-        ptr = nullptr;
+        delete ptr;//nie wiedzialem czy uzyc nullptr czy delete, poniewaz head zostal zaalokowany za pomocą new na stercie 
         _size--;
         return val_to_return;
     }
