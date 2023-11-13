@@ -33,6 +33,9 @@ public:
     }
 
     T pop_front() {
+        if (empty()) {
+            throw std::out_of_range("EMPTY");
+        }
         auto node_to_delete = guard->next;
         auto right = node_to_delete->next;
         auto value_to_return  = node_to_delete->value;
@@ -44,6 +47,9 @@ public:
 
 
     T pop_back() {
+        if (empty()) {
+            throw std::out_of_range("EMPTY");
+        }
         auto node_to_delete = guard->prev;
         auto left = node_to_delete->prev;
         auto value_to_return = node_to_delete->value;
@@ -54,8 +60,10 @@ public:
     }
 
 
-    void clear() {
-
+     void clear() {
+        while (!empty()) {
+            pop_front();
+        }
     }
 
     int find(T x) {
@@ -72,6 +80,9 @@ public:
         
     }
     T erase(int index) {
+        if (index >= _size) {
+            throw std::out_of_range("INDEX TOO BIG");
+        }
         auto node = guard->next;
         for(int i = 0; i<=index;i++) {
             node = node->next;
@@ -87,13 +98,28 @@ public:
     }
 
     void insert(int index, T x) {
-        auto node = guard->next;
-        for(int i = 0; i<index;i++) {
-            node = node->next;
+        if (index < 0 || index > _size) {
+            throw std::out_of_range("Index out of range");
         }
-        auto node_to_insert = new Node(x,node->prev, node);
+
+        auto node = guard->next;
+        auto reverse = (index > _size / 2);  // Check if it's faster to traverse from the end
+
+        if (reverse) {
+            node = guard->prev;
+            for (int i = _size; i > index; --i) {
+                node = node->prev;
+            }
+        } else {
+            for (int i = 0; i < index; ++i) {
+                node = node->next;
+            }
+        }
+
+        auto node_to_insert = new Node(x, node->prev, node);
         node->prev->next = node_to_insert;
         node->prev = node_to_insert;
+        _size++;
     }
     int remove(T x) {
         int counter = 0;
