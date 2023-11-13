@@ -79,8 +79,8 @@ public:
         
     }
     T erase(int index) {
-        if (index >= _size) {
-            throw std::out_of_range("INDEX TOO BIG");
+        if (iindex < 0 || index >= _size) {
+            throw std::out_of_range("INDEX OUT OF RANGE");
         }
         auto node = guard->next;
         for(int i = 0; i<=index;i++) {
@@ -102,7 +102,7 @@ public:
         }
 
         auto node = guard->next;
-        auto reverse = (index > _size / 2);  // Check if it's faster to traverse from the end
+        auto reverse = (index > _size / 2); 
 
         if (reverse) {
             node = guard->prev;
