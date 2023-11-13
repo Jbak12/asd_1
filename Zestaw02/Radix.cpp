@@ -1,6 +1,8 @@
 #include <iostream>
 #include <vector>
 #include "LinkedQueue.hpp"
+#include <algorithm>
+#include <math.h>
 
 int countDigits(int number) {
     return floor(log10(number) + 1);  

@@ -21,7 +21,7 @@ public:
 
     T pop() {
         if (empty()) {
-            throw std::out_of_range("EMPTY");
+            throw std::underflow_error("EMPTY");
         }
         T value_to_return = queue[ptr];
         ptr = (ptr + 1) % n;

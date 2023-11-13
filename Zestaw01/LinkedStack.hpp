@@ -9,9 +9,7 @@ class LinkedStack {
     };
     
 public:
-    LinkedStack() {
-        length = 0;
-    }
+    LinkedStack():length(0) {}
     
     void push(T x) {
         Node* newHead;

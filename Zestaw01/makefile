@@ -1,10 +1,10 @@
 CXX = g++
 CXXFLAGS = -std=c++11
-STACK_TARGET = stack.x
-GENERATOR_TARGET = generator.x
+STACK_TARGET = Stack.x
+GENERATOR_TARGET = Generator.x
 ONP_TARGET = ONP.x  
-SRCS = stack.cpp
-GENERATOR_SRCS = generator.cpp
+SRCS = Stack.cpp
+GENERATOR_SRCS = Generator.cpp
 ONP_SRCS = ONP.cpp 
 OBJS = $(SRCS:.cpp=.o)
 GENERATOR_OBJS = $(GENERATOR_SRCS:.cpp=.o)
