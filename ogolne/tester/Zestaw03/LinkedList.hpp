@@ -6,7 +6,6 @@ public:
         T value;
         Node * prev;
         Node* next;
-        Node(T value): value(value), next(nullptr), prev(nullptr) {}
         Node(T value, Node* prev, Node* next): value(value), next(next), prev(prev) {}
         Node(): value(T{}), next(nullptr), prev(nullptr) {}
     };
@@ -147,20 +146,9 @@ public:
     int size() {
         return _size;
     }
+
     bool empty() {
         return (_size == 0);
-    }
-
-    //debug
-    void printAll() {
-        auto node = guard->next;
-
-        while (node != guard) {
-            std::cout << node->value << " ";
-            node = node->next;
-        }
-
-        std::cout << std::endl;
     }
 
 private:
