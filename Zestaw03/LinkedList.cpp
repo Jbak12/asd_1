@@ -6,49 +6,55 @@ int main() {
     int operations;
 
     std::cin >> operations;
-    // list.push_front(10);
-    // list.push_front(20);
-    // std::cout<<list.pop_back()<<std::endl;
-    // std::cout<<list.pop_back()<<std::endl;
+
     for (int i = 0; i < operations; ++i) {
         char input;
         std::cin >> input;
 
         try {
             switch (input) {
-                case 'F':
+                case 'F': {
                     int value;
                     std::cin >> value;
                     list.push_front(value);
                     break;
-                case 'B':
+                }
+                case 'B': {
                     int val;
                     std::cin >> val;
                     list.push_back(val);
                     break;
-                case 'f':  
-                    std::cout << list.pop_front() << std::endl;
+                }
+                case 'f': {
+                    auto el_to_p = list.pop_front();
+                    std::cout << el_to_p << std::endl;
                     break;
-                case 'b':  
-                    std::cout << list.pop_back() << std::endl;
+                }
+                case 'b': {
+                    auto element_to_print = list.pop_back();
+                    std::cout << element_to_print << std::endl;
                     break;
-                case 'R':
+                }
+                case 'R': {
                     int x,y;  
                     std::cin>>x;
                     std::cin>>y;
-                    int res = list.find(x);
-                    if(res == -1) {
+                    int find_res = list.find(x);
+                    // std::cout<< "index: znalezionego ziomka: " <<find_res <<std::endl;
+                    if(find_res == -1) {
                         std::cout<<"FALSE"<<std::endl;
                     } else {
-                        list.erase(res);
-                        list.insert(res,y);
+                        list.erase(find_res);
+                        list.insert(find_res,y);
                         std::cout<<"TRUE"<<std::endl;
-
                     }
-                    std::cout << list.size() << std::endl;
                     break;
-                // default:
-                //     std::cout << "zle dane" << std::endl;
+                }
+                case 'S': {
+                    std::cout<<list.size()<<std::endl;
+                    break;
+                }
+
             }
         } catch (const std::out_of_range& e) {
             std::cout << e.what() << std::endl;

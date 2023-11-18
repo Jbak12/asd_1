@@ -31,7 +31,7 @@ public:
         auto node = new Node(x,left,right);
         right->prev = node;
         left->next = node;
-        _size ++
+        _size ++;
     }
 
     T pop_front() {
@@ -39,10 +39,11 @@ public:
             throw std::out_of_range("EMPTY");
         }
         auto node_to_delete = guard->next;
-        auto right = node_to_delete->next;
         auto value_to_return  = node_to_delete->value;
+        auto right = node_to_delete->next;
         guard->next = right;
         right->prev = guard;
+        _size --;
         delete node_to_delete;
         return value_to_return;
     }
@@ -57,10 +58,10 @@ public:
         auto value_to_return = node_to_delete->value;
         guard->prev = left;
         left->next = guard;
+        _size --;
         delete node_to_delete;
         return value_to_return;
     }
-
 
      void clear() {
         while (!empty()) {
@@ -69,23 +70,25 @@ public:
     }
 
     int find(T x) {
+        int index = 0;
         auto node = guard->next;
-
-        for(int i = 0; i < _size; i++) {
+        while (node != guard) {
             if (node->value == x) {
-                return i;
+                return index;
             }
             node = node->next;
+            index++;
         }
+
         return -1;
-        
     }
+    
     T erase(int index) {
         if (index < 0 || index >= _size) {
             throw std::out_of_range("INDEX OUT OF RANGE");
         }
         auto node = guard->next;
-        for(int i = 0; i<=index;i++) {
+        for(int i = 0; i<index;i++) {
             node = node->next;
         }
         auto value_to_return = node->value;
@@ -93,14 +96,16 @@ public:
         auto left = node->prev;
         right->prev = left;
         left->next = right;
+        _size --;
         delete node;
         return value_to_return;
     
     }
 
     void insert(int index, T x) {
-        if (index < 0 || index > _size) {
+        if (index < 0 || index >= _size) {
             throw std::out_of_range("Index out of range");
+            return;
         }
 
         auto node = guard->next;
@@ -133,15 +138,29 @@ public:
                 auto node_to_delete = node;
                 node = node->next;
                 delete node_to_delete;
+                _size --;
             }
         }
         return counter;
     }
+
     int size() {
         return _size;
     }
     bool empty() {
-        return _size == 0;
+        return (_size == 0);
+    }
+
+    //debug
+    void printAll() {
+        auto node = guard->next;
+
+        while (node != guard) {
+            std::cout << node->value << " ";
+            node = node->next;
+        }
+
+        std::cout << std::endl;
     }
 
 private:

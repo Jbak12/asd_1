@@ -26,7 +26,7 @@ int main() {
                     break;
                 }
                 case 'f': {
-                    auto el_to_p = list.pop_back();
+                    auto el_to_p = list.pop_front();
                     std::cout << el_to_p << std::endl;
                     break;
                 }
@@ -40,6 +40,7 @@ int main() {
                     std::cin>>x;
                     std::cin>>y;
                     int find_res = list.find(x);
+                    // std::cout<< "index: znalezionego ziomka: " <<find_res <<std::endl;
                     if(find_res == -1) {
                         std::cout<<"FALSE"<<std::endl;
                     } else {
