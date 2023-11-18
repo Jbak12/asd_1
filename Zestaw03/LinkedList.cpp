@@ -2,11 +2,14 @@
 #include "LinkedList.hpp"
 
 int main() {
-    LinkedList<int> list;
+    LinkedList<int> list = LinkedList<int>();
     int operations;
 
     std::cin >> operations;
-
+    // list.push_front(10);
+    // list.push_front(20);
+    // std::cout<<list.pop_back()<<std::endl;
+    // std::cout<<list.pop_back()<<std::endl;
     for (int i = 0; i < operations; ++i) {
         char input;
         std::cin >> input;

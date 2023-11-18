@@ -12,6 +12,8 @@ public:
     };
     LinkedList(): _size(0) {
         guard = new Node();
+        guard->next = guard;
+        guard->prev = guard;
     }
 
     void push_front(T x) {
@@ -29,7 +31,7 @@ public:
         auto node = new Node(x,left,right);
         right->prev = node;
         left->next = node;
-        _size --;
+        _size ++
     }
 
     T pop_front() {
@@ -79,7 +81,7 @@ public:
         
     }
     T erase(int index) {
-        if (iindex < 0 || index >= _size) {
+        if (index < 0 || index >= _size) {
             throw std::out_of_range("INDEX OUT OF RANGE");
         }
         auto node = guard->next;

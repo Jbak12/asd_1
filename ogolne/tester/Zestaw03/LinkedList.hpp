@@ -12,6 +12,8 @@ public:
     };
     LinkedList(): _size(0) {
         guard = new Node();
+        guard->next = guard;
+        guard->prev = guard;
     }
 
     void push_front(T x) {
@@ -29,7 +31,7 @@ public:
         auto node = new Node(x,left,right);
         right->prev = node;
         left->next = node;
-        _size --;
+        _size ++;
     }
 
     T pop_front() {
@@ -42,6 +44,7 @@ public:
         guard->next = right;
         right->prev = guard;
         delete node_to_delete;
+        _size --;
         return value_to_return;
     }
 
@@ -56,6 +59,7 @@ public:
         guard->prev = left;
         left->next = guard;
         delete node_to_delete;
+        _size --;
         return value_to_return;
     }
 
@@ -67,8 +71,7 @@ public:
     }
 
     int find(T x) {
-        auto node = guard->next;
-
+        auto node = guard;
         for(int i = 0; i < _size; i++) {
             if (node->value == x) {
                 return i;
@@ -76,11 +79,11 @@ public:
             node = node->next;
         }
         return -1;
-        
     }
+    
     T erase(int index) {
-        if (index >= _size) {
-            throw std::out_of_range("INDEX TOO BIG");
+        if (index < 0 || index >= _size) {
+            throw std::out_of_range("INDEX OUT OF RANGE");
         }
         auto node = guard->next;
         for(int i = 0; i<=index;i++) {
@@ -91,6 +94,7 @@ public:
         auto left = node->prev;
         right->prev = left;
         left->next = right;
+        _size --;
         delete node;
         return value_to_return;
     
@@ -99,10 +103,11 @@ public:
     void insert(int index, T x) {
         if (index < 0 || index > _size) {
             throw std::out_of_range("Index out of range");
+            return;
         }
 
         auto node = guard->next;
-        auto reverse = (index > _size / 2);  // Check if it's faster to traverse from the end
+        auto reverse = (index > _size / 2); 
 
         if (reverse) {
             node = guard->prev;
@@ -131,6 +136,7 @@ public:
                 auto node_to_delete = node;
                 node = node->next;
                 delete node_to_delete;
+                _size --;
             }
         }
         return counter;
