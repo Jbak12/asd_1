@@ -1,8 +1,8 @@
 CXX = g++
 CXXFLAGS = -std=c++11
-GENERATOR_TARGET = generator.x
+GENERATOR_TARGET = Generator.x
 LIST_TARGET = LinkedList.x  
-GENERATOR_SRCS = generator.cpp
+GENERATOR_SRCS = Generator.cpp
 LIST_SRCS = LinkedList.cpp 
 GENERATOR_OBJS = $(GENERATOR_SRCS:.cpp=.o)
 LIST_OBJS = $(LIST_SRCS:.cpp=.o)  
