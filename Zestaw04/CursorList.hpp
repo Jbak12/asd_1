@@ -1,5 +1,4 @@
 #include <stdexcept>
-#define guard(_condition) if (bool(_condition)){}
 
 template <typename T, int N>
 class CursorList {
@@ -8,7 +7,7 @@ class CursorList {
         T val;
         int next;
     };
-    CursorList(): head(0),tail(0),spare(0),_size(0) {
+    CursorList(): head(-1),tail(-1),spare(0),_size(0) {
         for (int i = 0; i < N-1; i++) {
             list[i].next = i+1;
         }
@@ -19,13 +18,16 @@ class CursorList {
         if (_size == N) {
             std::__throw_out_of_range("juz jest n elementow w kolekcji");
         }
-        int index_to_insert_to = allocate();
-        Node node_to_insert;
-        node_to_insert.val = x;
-        node_to_insert.next = -1;
-        list[tail].next = index_to_insert_to;
-        tail = index_to_insert_to;
-        list[tail] = node_to_insert;
+        int old_tail = tail;
+        tail = allocate();
+
+        if(_size == 0) {
+            head = tail;
+        } else {
+            list[old_tail].next = tail;
+        }
+        list[tail].val = x;
+        list[tail].next = -1;
         _size ++;
     }
     
@@ -33,24 +35,54 @@ class CursorList {
         if (_size == N) {
             std::__throw_out_of_range("juz jest n elementow w kolekcji");
         }
-        int index_to_insert_to = allocate();
-        Node node_to_insert;
-        node_to_insert.val = x;
-        node_to_insert.next = head;
-        head = index_to_insert_to;
-        list[head] = node_to_insert;
-        _size ++;
+
+
+        int old_head = head;
+        head = allocate();
+
+        if(_size == 0) {
+            tail = head;
+        } else {
+            list[old_head].next = head;
+        }
+        list[head].val = x;
+        list[head].next = old_head;
+         _size ++;
 
     }
 
     T pop_back() {
-        t--;
-        return T{};
+        if(_size == 0) {
+            std::__throw_underflow_error("EMPTY");
+        }
+        int tmp = head;
+        int new_tail;
+        while(list[tmp].next != -1) {
+            if(list[tmp].next == tail) {
+                new_tail = tmp;
+                break;
+            }
+            tmp = list[tmp].next;
+
+        }
+
+        deallocate(tail);
+        T val_to_return = list[tail].val;
+        tail = new_tail;
+        _size --;
+        return ;
     }
 
     T pop_front() {
-        tp--;
-        return T{};
+        if(_size == 0) {
+            std::__throw_underflow_error("EMPTY");
+        }
+        int old_head = head;
+        head = list[old_head].next;
+        T val_to_return = list[old_head].val;
+        deallocate(old_head);
+        _size --;
+        return val_to_return;
     }
 
     T erase(int index) {
@@ -58,8 +90,7 @@ class CursorList {
         return T{};
     }
 
-    void insert(int index. T x) {
-
+    void insert(int index, T x) {
         _size ++;
 
     }
@@ -72,7 +103,7 @@ class CursorList {
         return -1;
     }
 
-    int allocate() {
+    inline int allocate() {
         int old_spare = spare;
         spare = list[spare].next;
         return old_spare;
@@ -80,11 +111,8 @@ class CursorList {
 
     void deallocate(int index) {
         int old_spare = spare;
-        int new_spare = head;
-        for(int i = 0;i<index;i++){
-
-        }
-
+        list[index].next = old_spare;
+        spare = index;
     } 
 
     bool empty() {
