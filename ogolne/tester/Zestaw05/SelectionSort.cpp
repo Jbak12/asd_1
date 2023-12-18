@@ -5,17 +5,15 @@
 
 template <class T>
 void sort(std::vector<T>& v) {
-    int size_ = v.size();
-    for (int i = 0; i < size_ - 1; ++i) {
-        // Find the minimum element in unsorted part of the vector
+    int size = v.size();
+    for (int i = 0; i < size - 1; ++i) {
         int minIndex = i;
-        for (int j = i + 1; j < size_; ++j) {
+        for (int j = i + 1; j < size; ++j) {
             if (v[j] < v[minIndex]) {
                 minIndex = j;
             }
         }
 
-        // Swap the found minimum element with the first element
         std::swap(v[minIndex], v[i]);
     }
 }
@@ -31,7 +29,7 @@ int main(int argc, char *argv[]) {
     sort(v);
     auto end_time = std::chrono::high_resolution_clock::now();
 
-    auto time_ = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
+    auto time_ = std::chrono::duration<double>(end_time - start_time);
 
     if (argc > 1 && std::string(argv[1]) == "measure_mode") {
         std::ofstream results_file("Selection_results.txt", std::ios::app);
@@ -40,7 +38,7 @@ int main(int argc, char *argv[]) {
                 // results_file << "Size,Time (ms)\n";  
             }
 
-        results_file << v.size() << "," << time_.count() << "\n";
+        results_file << v.size() << " " << time_.count() << "\n";
         results_file.close();
         return 0;
     }

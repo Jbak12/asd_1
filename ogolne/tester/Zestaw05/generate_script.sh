@@ -18,8 +18,8 @@ for ((i = 10000; i <= 150000; i += 10000)); do
     ./CountingSort.x measure_mode < input.txt 2>&1
 
     
-    echo "Time taken to sort $i numbers: $TIME"
+    # echo "Time taken to sort $i numbers: $TIME"
 done
 
 # Clean up temporary files
-rm -f Generator BubbleSort input.txt
+rm -f input.txt

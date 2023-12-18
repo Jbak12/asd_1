@@ -26,7 +26,7 @@ int main(int argc, char *argv[]) {
     sort(v);
     auto end_time = std::chrono::high_resolution_clock::now();
 
-    auto time_ = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
+    auto time_ = std::chrono::duration<double>(end_time - start_time);
 
     if (argc > 1 && std::string(argv[1]) == "measure_mode") {
         std::ofstream results_file("Bubble_sort_results.txt", std::ios::app);
@@ -35,7 +35,7 @@ int main(int argc, char *argv[]) {
                 // results_file << "Size,Time (ms)\n";  
             }
 
-        results_file << v.size() << "," << time_.count() << "\n";
+        results_file << v.size() << " " << time_.count() << "\n";
         results_file.close();
         return 0;
     }

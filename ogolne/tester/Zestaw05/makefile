@@ -17,5 +17,7 @@ all: $(TARGETS)
 
 clean:
 	rm -f $(OBJS) $(TARGETS)
+clean_results:
+	rm *.txt
 
 .PHONY: all run clean

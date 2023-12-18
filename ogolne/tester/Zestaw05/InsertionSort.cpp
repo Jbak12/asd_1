@@ -39,7 +39,7 @@ int main(int argc, char *argv[]) {
                 // results_file << "Size,Time (ms)\n";  
             }
 
-        results_file << v.size() << "," << time_.count() << "\n";
+        results_file << v.size() << " " << time_.count() << "\n";
         results_file.close();
         return 0;
     }
