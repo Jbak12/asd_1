@@ -3,29 +3,25 @@
 #include <chrono>
 #include <fstream>
 
-template <class T>
-void sort(std::vector<T>& v) {
+void sort(std::vector<int>& v) {
     if (v.empty()) {
         return;
     }
 
-    T maxElement = *std::max_element(v.begin(), v.end());
-    T minElement = *std::min_element(v.begin(), v.end());
+    int max = *std::max_element(v.begin(), v.end());
 
-    // Create a count array to store the count of each element
-    std::vector<T> count(maxElement - minElement + 1, 0);
+    std::vector<int> count(max + 1, 0);
 
-    // Count the occurrences of each element in the input vector
-    for (const T& elem : v) {
-        count[elem - minElement]++;
+    for (int value : v) {
+        count[value]++;
     }
 
-    // Update the input vector with sorted elements
-    size_t index = 0;
-    for (T i = minElement; i <= maxElement; ++i) {
-        while (count[i - minElement] > 0) {
-            v[index++] = i;
-            count[i - minElement]--;
+    int index = 0;
+    for (int i = 0; i <= max; ++i) {
+        while (count[i] > 0) {
+            v[index] = i;
+            index++;
+            count[i]--;
         }
     }
 }

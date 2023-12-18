@@ -32,7 +32,6 @@ int main(int argc, char *argv[]) {
         std::ofstream results_file("Bubble_sort_results.txt", std::ios::app);
             if (!results_file.is_open()) {
                 results_file.open("Bubble_sort_results.txt");
-                // results_file << "Size,Time (ms)\n";  
             }
 
         results_file << v.size() << " " << time_.count() << "\n";

@@ -13,7 +13,6 @@ void sort(std::vector<T>& v) {
                 minIndex = j;
             }
         }
-
         std::swap(v[minIndex], v[i]);
     }
 }

@@ -5,18 +5,21 @@
 
 template <class T>
 void sort(std::vector<T>& v) {
-    int size_ = v.size();
-    for (int i = 1; i < size_; ++i) {
+    int iterations;
+    int size = v.size();
+    for (int i = 1; i < size; ++i) {
         T key = v[i];
         int j = i - 1;
 
         while (j >= 0 && v[j] > key) {
             v[j + 1] = v[j];
-            --j;
+            j--;
+            iterations++;
         }
-
         v[j + 1] = key;
     }
+
+    // std::cout<<"ITERACJE: "<<iterations+size<<std::endl;
 }
 
 int main(int argc, char *argv[]) {
