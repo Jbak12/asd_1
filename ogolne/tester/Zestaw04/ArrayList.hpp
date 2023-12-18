@@ -6,8 +6,8 @@ class ArrayList {
     ArrayList(): _size(0) {};
     void push_front(T x) {
         check_full();
-        for(int i = 1; i<_size-1; i++) {
-            list(i) = list[i-1];
+        for(int i = _size; i > 0; i--) {
+            list[i] = list[i-1];
         }
         list[0] = x;
         _size ++;
@@ -22,7 +22,7 @@ class ArrayList {
     T pop_front() {
         check_empty();
         T val_to_return = list[0];
-        for (int i = 0; i < size_; i++){
+        for (int i = 0; i < _size; i++){
             list[i] = list[i+1];
         }
         _size--;
@@ -31,13 +31,13 @@ class ArrayList {
 
     T pop_back() {
         check_empty();
-        int val_to_return = list[size_-1];
+        int val_to_return = list[_size-1];
         _size--;
         return val_to_return;
     }
 
     int find (int x) {
-        for (int i = 0; i < size_; i++) {
+        for (int i = 0; i < _size; i++) {
             if (list[i] == x) {
                 return i;
             }
@@ -45,12 +45,12 @@ class ArrayList {
         return -1;
     }
 
-    T erase(int i) {
-        check_range(i);
-        T val_to_return  = list[i];
+    T erase(int index) {
+        check_range(index);
+        T val_to_return  = list[index];
 
-        for (int i = index; i < size_-1; i++) {
-            data[i] = data[i+1];
+        for (int i = index; i < _size-1; i++) {
+            list[i] = list[i+1];
         }
         _size--;
         return val_to_return;

@@ -16,9 +16,7 @@ class CursorList {
     }
 
     void push_back(T x) {
-        if (_size == N) {  
-            std::__throw_out_of_range("FULL");
-        }
+        check_full();
         int old_tail = tail;
         tail = allocate();
 
@@ -33,9 +31,7 @@ class CursorList {
     }
     
     void push_front(T x) {
-        if (_size == N) {
-            std::__throw_out_of_range("FULL");
-        }
+        check_full();
         int old_head = head;
         head = allocate();
 
@@ -50,9 +46,7 @@ class CursorList {
     }
 
     T pop_back() {
-        if(_size == 0) {
-            std::__throw_out_of_range("EMPTY");
-        }
+        check_empty();
         int tmp_tail = head;
         int new_tail;
         while(list[tmp_tail].next != -1) {
@@ -70,9 +64,7 @@ class CursorList {
     }
 
     T pop_front() {
-        if(_size == 0) {
-            std::__throw_out_of_range("EMPTY");
-        }
+        check_empty();
         int temp_head = head;
         T val_to_return = list[temp_head].val;
         head = list[temp_head].next;
@@ -82,12 +74,8 @@ class CursorList {
     }
 
     T erase(int index) {
-        if(_size == 0) {
-            std::__throw_out_of_range("EMPTY");
-        } 
-        if (index >=N || index < 0) {
-            std::__throw_out_of_range("BAD INDEX");
-        }
+        check_empty();
+        check_range(index);
 
         if(index == 0) {
             T val = pop_front();
@@ -111,11 +99,8 @@ class CursorList {
     }
 
     void insert(int index, T x) {
-        if (index >=N || index < 0) {
-            std::__throw_out_of_range("BAD INDEX");
-        } else if (_size>=N) {
-            std::__throw_out_of_range("FULL");
-        }
+        check_full();
+        check_range(index);
          _size ++;
 
         int temp = allocate();
@@ -141,20 +126,6 @@ class CursorList {
         }
         list[N-1].next = -1;
     }
-
-    // int find(T x) {
-    //     int count = 0;
-    //     int temp = head;
-    //     do {
-    //         if(list[temp].val != x) {
-    //             return count;
-    //         }
-    //         count ++;
-    //         temp = list[temp].next;
-    //     } while(list[temp].next != -1);  
-
-    //     return -1;
-    // }
 
     int find(T x) {
         int temp=head;
@@ -206,4 +177,21 @@ class CursorList {
     int tail;
     int _size;
     int spare;
+
+    inline void check_full() {
+        if (_size == N) {
+            throw std::out_of_range("FULL");
+        }
+    }
+    inline void check_empty() {
+        if (_size == 0) {
+            throw std::out_of_range("EMPTY");
+        }
+    }
+
+    inline void check_range(int i) {
+        if (i < 0 || i > _size) {
+            throw std::out_of_range("Index out of range");
+        }
+    }
 };

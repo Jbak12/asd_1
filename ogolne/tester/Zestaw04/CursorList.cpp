@@ -40,7 +40,6 @@ int main() {
                     std::cin>>x;
                     std::cin>>y;
                     int find_res = list.find(x);
-                    // std::cout<< "index: znalezionego ziomka: " <<find_res <<std::endl;
                     if(find_res == -1) {
                         std::cout<<"FALSE"<<std::endl;
                     } else {
