@@ -1,0 +1,30 @@
+CXX = g++
+CXXFLAGS = -std=c++11
+GENERATOR_TARGET = Generator.x
+LIST_TARGET = LinkedList.x  
+GENERATOR_SRCS = Generator.cpp
+LIST_SRCS = LinkedList.cpp 
+GENERATOR_OBJS = $(GENERATOR_SRCS:.cpp=.o)
+LIST_OBJS = $(LIST_SRCS:.cpp=.o)  
+
+all: $(GENERATOR_TARGET) $(LIST_TARGET)  
+$(GENERATOR_TARGET): $(GENERATOR_OBJS)
+	$(CXX) $(CXXFLAGS) -o $(GENERATOR_TARGET) $(GENERATOR_OBJS)
+
+$(LIST_TARGET): $(LIST_OBJS)
+	$(CXX) $(CXXFLAGS) -o $(LIST_TARGET) $(LIST_OBJS) 
+
+%.o: %.cpp
+	$(CXX) $(CXXFLAGS) -c $<
+
+run: $(LIST_TARGET)
+	./$(LIST_TARGET)
+
+generate: $(GENERATOR_TARGET)
+	./$(GENERATOR_TARGET) | ./$(LIST_TARGET)
+
+
+clean:
+	rm -f $(GENERATOR_OBJS) $(LIST_OBJS) $(LIST_TARGET) $(GENERATOR_TARGET)
+
+.PHONY: all run generate clean  

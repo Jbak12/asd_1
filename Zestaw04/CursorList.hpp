@@ -7,6 +7,7 @@ class CursorList {
         T val;
         int next;
     };
+    public:
     CursorList(): head(-1),tail(-1),spare(0),_size(0) {
         for (int i = 0; i < N-1; i++) {
             list[i].next = i+1;
@@ -15,7 +16,7 @@ class CursorList {
     }
 
     void push_back(T x) {
-        if (_size == N) {
+        if (_size == N) {  
             std::__throw_out_of_range("FULL");
         }
         int old_tail = tail;
@@ -35,8 +36,6 @@ class CursorList {
         if (_size == N) {
             std::__throw_out_of_range("FULL");
         }
-
-
         int old_head = head;
         head = allocate();
 
@@ -91,7 +90,7 @@ class CursorList {
         }
 
         if(index == 0) {
-            T val = pop_front;
+            T val = pop_front();
             return val;
         } else if (index == N-1) {
             T val = pop_back();
@@ -105,7 +104,7 @@ class CursorList {
         }
         T val_to_return = list[to_delete].val;
         to_delete = list[prev].next;
-        list[prev].next = to_delete.next;
+        list[prev].next = list[to_delete].next;
         deallocate(to_delete);
         _size --;
         return val_to_return;
@@ -121,7 +120,7 @@ class CursorList {
 
         int temp = allocate();
         list[temp].val = x;
-        if(pos == 0) {
+        if(index == 0) {
             list[temp].next = head;
             head = temp;
             return;
@@ -132,7 +131,6 @@ class CursorList {
             prev = list[prev].next;
         
         }
-
         list[temp].next = list[prev].next;
         list[prev].next = temp;
     }
@@ -145,6 +143,16 @@ class CursorList {
     }
 
     int find(T x) {
+        int count = 0;
+        int temp = head;
+        do {
+            if(list[temp].val != x) {
+                return count;
+            }
+            count ++;
+            temp = list[temp].next;
+        } while(list[temp].next != -1);  
+
         return -1;
     }
 
@@ -174,6 +182,4 @@ class CursorList {
     int tail;
     int _size;
     int spare;
-
-
 };
