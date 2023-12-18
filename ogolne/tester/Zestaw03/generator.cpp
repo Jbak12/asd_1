@@ -30,7 +30,7 @@ int main() {
             case 4:
                 cout<< "S" <<endl;
             case 5:
-                cout<< "R " <<rand() % 1000<< " " <<rand()%1000 <<endl;
+                cout<< "R " <<rand() % 1000<< " " <<rand() % 1000 <<endl;
 
         }
     }

@@ -142,19 +142,43 @@ class CursorList {
         list[N-1].next = -1;
     }
 
-    int find(T x) {
-        int count = 0;
-        int temp = head;
-        do {
-            if(list[temp].val != x) {
-                return count;
-            }
-            count ++;
-            temp = list[temp].next;
-        } while(list[temp].next != -1);  
+    // int find(T x) {
+    //     int count = 0;
+    //     int temp = head;
+    //     do {
+    //         if(list[temp].val != x) {
+    //             return count;
+    //         }
+    //         count ++;
+    //         temp = list[temp].next;
+    //     } while(list[temp].next != -1);  
 
-        return -1;
+    //     return -1;
+    // }
+
+    int find(T x) {
+        int temp=head;
+        for(int i=0;i<_size;i++) {
+            if(list[temp].val==x) {
+                return i;
+            }
+        temp=list[temp].next;
     }
+    return -1;
+    }
+
+    int remove(T x) {
+        int count=0;
+        int temp=head;
+        for(int i=0;i<_size;i++) {
+            if(list[temp].val == x) {
+                count++;
+                erase(i);
+            }
+            temp=list[temp].next;
+        }
+        return count;
+}
 
     inline int allocate() {
         int old_spare = spare;
