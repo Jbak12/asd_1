@@ -68,6 +68,8 @@
         "stack": "cpp",
         "__verbose_abort": "cpp",
         "charconv": "cpp",
-        "list": "cpp"
+        "list": "cpp",
+        "set": "cpp",
+        "queue": "cpp"
     }
 }

@@ -1,4 +1,6 @@
-
+#include <iostream>
+#include <queue>
+#include<stack>
 class BinaryTree {
     public:
     struct Node {
@@ -12,83 +14,177 @@ class BinaryTree {
 
     void insert(int x) {
         Node* node_to_insert = new Node(x);
-        int current_depth = 0;
         if(_size == 0) {
             root = node_to_insert;
         } else {
             Node* current_node = root;
-            sub_insert(root, node_to_insert);
+            insert(root, node_to_insert);
         }
 
         _size++;
 
     }
 
-    void sub_insert(Node* root, Node* node_to_insert) {
-        if(node_to_insert->val > root->val) {
+    void insert(Node* root, Node* node_to_insert) {
+        if(node_to_insert->val >= root->val) {
             if(root->right == nullptr) {
                 root->right = node_to_insert;
                 return;
             } else {
-                sub_insert(root->right,node_to_insert);
+                insert(root->right,node_to_insert);
             }
         } else {
             if(root->left == nullptr) {
                 root->left = node_to_insert;
                 return;
             } else {
-                sub_insert(root->left,node_to_insert);
+                insert(root->left,node_to_insert);
             }
+
         }
     }
 
-    Node* search(int x) {
 
+    Node* search(int x) {
+        Node* currentNode = root;
+        while(currentNode != nullptr && currentNode->val != x){
+            if(currentNode->val>x) {
+                currentNode = currentNode->left;
+            } else {
+                currentNode = currentNode->right;
+            }
+        }
+        return currentNode;
     }
 
     Node* searchRecursive(int x) {
-
+        return searchRecursive(root,x);
     }
 
-    int minimum() {
-
+    Node* searchRecursive(Node* node, int x) {
+        if (node == nullptr or x == node->val) {
+            return node;
+        }
+        if (x < node->val) {
+            return searchRecursive(node->left, x);
+        } else {
+            return searchRecursive(node->right, x);
+        }
     }
 
     int maximum() {
+        auto node = root;
+        while(node->right!=nullptr) {
+            node = node->right;
+        }
+        return node->val;
+    }
+
+    int minimum() {
+        auto node = root;
+        while(node->left != nullptr) {
+            node = node->left;
+        }
+        return node->val;
     }
 
     int depth() {
-        return _depth;
+        if (root == nullptr) {
+            return 0;
+        }
+        std::queue<Node*> q;
+        q.push(root);
+        int depth = 0;
+
+        while (!q.empty()) {
+            int level_size = q.size();
+
+            for (int i = 0; i < level_size; i++) {
+                Node* current_node = q.front();
+                q.pop();
+
+                if (current_node->right != nullptr) {
+                    q.push(current_node->right);
+                }
+
+                if (current_node->left != nullptr) {
+                    q.push(current_node->left);
+                }
+            }
+            depth++;
+        }
+
+        return depth;
+    }
+
+     void iterativeInorder() {
+
+        if (root == nullptr) {
+            return;
+        }
+        std::stack<Node*> nodes_stack;
+        Node* current = root;
+
+        while (!(current == nullptr && nodes_stack.empty())) {
+            
+            while (current != nullptr) {
+                nodes_stack.push(current);
+                current = current->left;
+            }
+
+            current = nodes_stack.top();
+            std::cout << current->val << std::endl;
+
+            nodes_stack.pop();
+            current = current->right;
+        }
     }
 
     void postorder() {
-
+        postorder(root);
     }
 
     void preorder() {
-
+        preorder(root);
     }
+
     void inorder() {
-
+        iterativeInorder();
     }
 
-
-    int size();
-
-
-
-
-    
-
+    int size() {
+        return _size;
+    }
 
     private:
     Node* root;
     int _size;
     int _depth;
 
-    // void sub_insert(Node* root, int x) {
-    //     if();
-    // }
+    void postorder(Node* node) {
+        if (node!= nullptr) {
+            postorder(node->left);
+            postorder(node->right);
+            std::cout<<node->val<<std::endl;
+
+        }
+    }
+
+    void preorder(Node* node) {
+        if (node!= nullptr) {
+            std::cout<<node->val<<std::endl;
+            preorder(node->left);
+            preorder(node->right);
+        }
+    }
+
+    void inorder(Node* node) {
+        if (node!= nullptr) {
+            inorder(node->left);
+            std::cout<<node->val<<std::endl;
+            inorder(node->right);
+        }
+    }
 
 
 };
