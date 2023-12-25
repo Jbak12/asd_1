@@ -1,7 +1,7 @@
 CXX = g++
-CXXFLAGS = -std=c++11
-TARGETS = BinaryTree.x
-SRCS = BinaryTree.cpp
+CXXFLAGS = -std=c++17
+TARGETS = Dict.x
+SRCS = Dict.cpp
 OBJS = $(SRCS:.cpp=.o)
 
 all: $(TARGETS)
