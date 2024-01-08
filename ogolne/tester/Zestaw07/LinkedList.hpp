@@ -1,4 +1,10 @@
+#ifndef LINKEDLIST_HPP
+#define LINKEDLIST_HPP
 #include <stdexcept>
+
+template <typename K, typename V>
+class Dict;
+
 template <typename T>
 class LinkedList {
 public:
@@ -168,8 +174,11 @@ public:
         std::cout << std::endl;
     }
 
+    friend class Dict<std::string,std::string>;
+
 private:
     Node* guard;
     int _size;
 
 };
+#endif

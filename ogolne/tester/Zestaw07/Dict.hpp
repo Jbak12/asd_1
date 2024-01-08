@@ -1,16 +1,15 @@
+#ifndef DICT_HPP
+#define DICT_HPP
 #include <vector>
 #include <string>
+#include <limits>
 #include <type_traits>
-#include "LinkedList.hpp"
-#define BUCKETS 100
-// typedef Uint Unsigned int
+#define BUCKETS 1000
 
-struct hash_table_info {
-    int _size;
-    int number_of_classes;
-    int shortest_list;
-    int longest_list;
-};
+
+template <typename T>
+class LinkedList;
+
 template<class K, class V>
 class Dict {
 using Pair = std::pair<K,V>;
@@ -21,24 +20,70 @@ using Pair = std::pair<K,V>;
         }
     }
     void clear(){
+        hash_table.clear();
+        for(int i = 0; i < BUCKETS;i++) {
+            hash_table.push_back(LinkedList<Pair>());
+        }
+    }
+        
+    bool erase(const K& k) {
+        if(!find(k)) {
+            return false;
+        }
+        unsigned int _hash = hash(k);
+        auto node = hash_table[_hash].guard->next;
+        int index = 0;
+        while(node->value.first != k ) {
+            node = node->next;
+            index++;
+        }
+        hash_table[_hash].erase(index);
+        _size --;
+        return true;
 
     }
+
     bool insert(const Pair& p){
-        unsigned int _hash = hash(p->first);
-        hash_table[hash].push_back(p);
+
+        if(find(p.first)) {
+            erase(p.first);
+        }
+        unsigned int _hash = hash(p.first);
+        hash_table[_hash].push_back(p);
+        _size++;
+        return true;
     }
+
     bool find(const K& k) {
         unsigned int _hash = hash(k);
-        return hash_table[_hash].empty();
+        auto list = hash_table[_hash];
+        auto node = list.guard->next;
+        while(node != list.guard) {
+            if (node->value.first == k) {
+                return true;
+            }
+            node = node->next;
+        }
+        return false;
     }
 
-    V& operator[](const K& k) {
-        hash()
+    V& operator[](const K& k ) {
+		
+		if (!find(k)) {
+            std::__throw_out_of_range("No pair with given key");
+        }
+
+        unsigned int _hash = hash(k);
+        auto list = hash_table[_hash];
+        auto node = list.guard->next;
+        while(node != list.guard) {
+            if(node->value.first == k) {
+                return node->value.second;
+            }
+            node = node->next;
+        }
     }
 
-    bool erase(const K& k) {
-
-    }
     int size() {
         return _size;
     }
@@ -46,13 +91,31 @@ using Pair = std::pair<K,V>;
         return _size == 0;
     }
 
-    void buckets() {
-
-    }
+    void buckets () {
+		int shortest = std::numeric_limits<int>::max();
+		int longest = 0;
+        int buckets = 0;
+		
+		for (auto l : hash_table) {
+			if (l.size() > longest) {
+				longest = l.size();
+			}
+			if (l.size() < shortest) {
+				shortest = l.size();
+			}
+            if(!l.empty()) {
+                buckets ++;
+            }
+		}
+		
+		std::cout << "# " << _size << " " << buckets << " " << shortest << " " << longest << std::endl;
+	}
 
     unsigned int hash(const K& k) {
         if constexpr (std::is_same_v<K, std::string>) {
-            hash_string_djb2(k);
+            return hash_string_djb2(k);
+        }else {
+            return 0;
         }
         
     }  
@@ -64,11 +127,19 @@ using Pair = std::pair<K,V>;
             hash = ((hash << 5) + hash) + static_cast<unsigned int>(c);
         }
 
-        return hash;
+        return hash % BUCKETS;
     }
 
+
     private:
+    bool find_pair(Pair p) {
+        unsigned int _hash = hash(p.first);
+        
+
+    }
     std::vector<LinkedList<Pair>> hash_table;
     int _size;
 
 };
+
+#endif
