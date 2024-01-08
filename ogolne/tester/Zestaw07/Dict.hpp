@@ -88,6 +88,7 @@ using Pair = std::pair<K,V>;
     int size() {
         return _size;
     }
+    
     bool empty() {
         return _size == 0;
     }
@@ -109,7 +110,7 @@ using Pair = std::pair<K,V>;
     unsigned int hash(const K& k) {
         if constexpr (std::is_same_v<K, std::string>) {
             return hash_string_djb2(k);
-        }else {
+        } else {
             return 0;
         }
         
@@ -125,11 +126,6 @@ using Pair = std::pair<K,V>;
 
 
     private:
-    bool find_pair(Pair p) {
-        unsigned int _hash = hash(p.first);
-        
-
-    }
     std::vector<LinkedList<Pair>> hash_table;
     int _size;
 
