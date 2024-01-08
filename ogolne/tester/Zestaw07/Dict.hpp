@@ -3,6 +3,7 @@
 #include <vector>
 #include <string>
 #include <limits>
+#include <algorithm>
 #include <type_traits>
 #define BUCKETS 1000
 
@@ -97,15 +98,9 @@ using Pair = std::pair<K,V>;
         int buckets = 0;
 		
 		for (auto l : hash_table) {
-			if (l.size() > longest) {
-				longest = l.size();
-			}
-			if (l.size() < shortest) {
-				shortest = l.size();
-			}
-            if(!l.empty()) {
-                buckets ++;
-            }
+			longest = std::max(l.size(),longest);
+			shortest = std::min(l.size(), shortest);
+            buckets += l.empty() ? 0 : 1;
 		}
 		
 		std::cout << "# " << _size << " " << buckets << " " << shortest << " " << longest << std::endl;
@@ -121,12 +116,10 @@ using Pair = std::pair<K,V>;
     }  
 
     unsigned int hash_string_djb2(const std::string& x) {
-        unsigned int hash = 5381;  // Initial hash value recommended by djb2 algorithm
-
+        unsigned int hash = 5381; 
         for (char c : x) {
             hash = ((hash << 5) + hash) + static_cast<unsigned int>(c);
         }
-
         return hash % BUCKETS;
     }
 
